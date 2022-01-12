@@ -11,7 +11,7 @@ export abstract class CmsTemplateContainer<T extends CmsPageDefinition> {
   templateData$: Observable<CmsTemplateData<T>> = this._templateData$;
 
   constructor(
-    protected readonly EditorContextService: EditorContextService,
+    protected readonly editorContextService: EditorContextService,
     protected readonly initialTemplateData?: CmsTemplateData<T>
   ) {
     if (initialTemplateData) {
@@ -21,7 +21,7 @@ export abstract class CmsTemplateContainer<T extends CmsPageDefinition> {
 
   setCmsTemplateData(templateData: CmsTemplateData<T>): void {
     this._templateData$.next(templateData);
-    this.EditorContextService.setTemplateAnnotations(
+    this.editorContextService.setTemplateAnnotations(
       templateData.templateAnnotations
     );
   }
