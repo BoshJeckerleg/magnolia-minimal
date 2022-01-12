@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { EditorContextService } from '@magnolia/angular-editor';
 import { forkJoin, Observable } from 'rxjs';
-import { ApplianceDetailsComponent } from './appliance-details/pages/appliance-details/appliance-details.component';
+import { ApplianceDetailsComponent } from './appliance-registration/appliance-details/pages/appliance-details/appliance-details.component';
 import { JumbotronComponent } from './shared/components/jumbotron/jumbotron.component';
 
 @Component({
