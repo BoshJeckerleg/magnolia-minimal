@@ -25,10 +25,10 @@ export class CmsPageComponent<
   @Input() set templateData(data: CmsTemplateData<T>) {
     this.setCmsTemplateData(data);
 
-    if (this.EditorContextService.inIframe()) {
+    if (this.editorContextService.inIframe()) {
       this.setComments();
-      this.EditorContextService.onFrameReady();
-      this.EditorContextService.refresh();
+      this.editorContextService.onFrameReady();
+      this.editorContextService.refresh();
     }
   }
 
@@ -36,21 +36,21 @@ export class CmsPageComponent<
   openComment!: string;
 
   constructor(
-    protected readonly EditorContextService: EditorContextService,
+    protected readonly editorContextService: EditorContextService,
     private readonly personalizationService: PersonalizationServiceHelper
   ) {
-    super(EditorContextService);
+    super(editorContextService);
 
-    this.EditorContextService.initPageEditorBridge();
-    this.EditorContextService.registerOnMessageEvent(
+    this.editorContextService.initPageEditorBridge();
+    this.editorContextService.registerOnMessageEvent(
       'updateState',
       (message: any) => {
-        if (this.EditorContextService.templateAnnotations) {
+        if (this.editorContextService.templateAnnotations) {
           const templateAnnotations = this.personalizationService.wrap(
-            this.EditorContextService.templateAnnotations,
+            this.editorContextService.templateAnnotations,
             message.selectedComponentVariants
           );
-          this.EditorContextService.setTemplateAnnotations(templateAnnotations);
+          this.editorContextService.setTemplateAnnotations(templateAnnotations);
           this.setComments();
         }
       }
