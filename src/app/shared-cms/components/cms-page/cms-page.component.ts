@@ -1,10 +1,12 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { PersonalizationServiceHelper } from '@magnolia/angular-editor';
+import {
+  EditorContextService,
+  PersonalizationServiceHelper,
+} from '@magnolia/angular-editor';
 import { TemplateAnnotations } from '@magnolia/template-annotations';
 import { CmsPageDefinition } from '../../models/cms-page.interface';
 import { CmsTemplateContainer } from '../../models/cms-template-container.model';
 import { CmsTemplateData } from '../../models/cms-template-data.interface';
-import { CmsContextService } from '../../services/cms-context/cms-context.service';
 
 @Component({
   selector: 'shared-cms-page',
@@ -23,10 +25,10 @@ export class CmsPageComponent<
   @Input() set templateData(data: CmsTemplateData<T>) {
     this.setCmsTemplateData(data);
 
-    if (this.cmsContextService.inIframe()) {
+    if (this.EditorContextService.inIframe()) {
       this.setComments();
-      this.cmsContextService.onFrameReady();
-      this.cmsContextService.refresh();
+      this.EditorContextService.onFrameReady();
+      this.EditorContextService.refresh();
     }
   }
 
@@ -34,21 +36,21 @@ export class CmsPageComponent<
   openComment!: string;
 
   constructor(
-    protected readonly cmsContextService: CmsContextService,
+    protected readonly EditorContextService: EditorContextService,
     private readonly personalizationService: PersonalizationServiceHelper
   ) {
-    super(cmsContextService);
+    super(EditorContextService);
 
-    this.cmsContextService.initPageEditorBridge();
-    this.cmsContextService.registerOnMessageEvent(
+    this.EditorContextService.initPageEditorBridge();
+    this.EditorContextService.registerOnMessageEvent(
       'updateState',
       (message: any) => {
-        if (this.cmsContextService.templateAnnotations) {
+        if (this.EditorContextService.templateAnnotations) {
           const templateAnnotations = this.personalizationService.wrap(
-            this.cmsContextService.templateAnnotations,
+            this.EditorContextService.templateAnnotations,
             message.selectedComponentVariants
           );
-          this.cmsContextService.setTemplateAnnotations(templateAnnotations);
+          this.EditorContextService.setTemplateAnnotations(templateAnnotations);
           this.setComments();
         }
       }

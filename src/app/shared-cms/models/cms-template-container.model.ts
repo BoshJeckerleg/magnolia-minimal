@@ -1,5 +1,5 @@
+import { EditorContextService } from '@magnolia/angular-editor';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CmsContextService } from '../services/cms-context/cms-context.service';
 import { CmsPage, CmsPageDefinition } from './cms-page.interface';
 import { CmsTemplateAnnotations } from './cms-template-annotations.interface';
 import { CmsTemplateData } from './cms-template-data.interface';
@@ -11,7 +11,7 @@ export abstract class CmsTemplateContainer<T extends CmsPageDefinition> {
   templateData$: Observable<CmsTemplateData<T>> = this._templateData$;
 
   constructor(
-    protected readonly cmsContextService: CmsContextService,
+    protected readonly EditorContextService: EditorContextService,
     protected readonly initialTemplateData?: CmsTemplateData<T>
   ) {
     if (initialTemplateData) {
@@ -21,7 +21,7 @@ export abstract class CmsTemplateContainer<T extends CmsPageDefinition> {
 
   setCmsTemplateData(templateData: CmsTemplateData<T>): void {
     this._templateData$.next(templateData);
-    this.cmsContextService.setTemplateAnnotations(
+    this.EditorContextService.setTemplateAnnotations(
       templateData.templateAnnotations
     );
   }
