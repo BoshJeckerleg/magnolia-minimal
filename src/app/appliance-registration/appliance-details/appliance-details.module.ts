@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MagnoliaModule } from '@magnolia/angular-editor';
+import { SharedCmsModule } from 'src/app/shared-cms/shared-cms.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ApplianceDetailsComponent } from './pages/appliance-details/appliance-details.component';
 
@@ -8,13 +8,13 @@ import { ApplianceDetailsComponent } from './pages/appliance-details/appliance-d
   declarations: [ApplianceDetailsComponent],
   imports: [
     SharedModule,
+    SharedCmsModule,
     RouterModule.forChild([
       {
         path: '',
         component: ApplianceDetailsComponent,
       },
     ]),
-    MagnoliaModule,
   ],
   providers: [],
 })
