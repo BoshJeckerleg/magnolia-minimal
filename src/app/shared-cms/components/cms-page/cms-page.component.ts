@@ -1,4 +1,5 @@
 import { Component, forwardRef, Input } from '@angular/core';
+import { PersonalizationServiceHelper } from '@magnolia/angular-editor';
 import { TemplateAnnotations } from '@magnolia/template-annotations';
 import { CmsPageDefinition } from '../../models/cms-page.interface';
 import { CmsTemplateContainer } from '../../models/cms-template-container.model';
@@ -32,8 +33,26 @@ export class CmsPageComponent<
   closeComment!: string;
   openComment!: string;
 
-  constructor(protected readonly cmsContextService: CmsContextService) {
+  constructor(
+    protected readonly cmsContextService: CmsContextService,
+    private readonly personalizationService: PersonalizationServiceHelper
+  ) {
     super(cmsContextService);
+
+    this.cmsContextService.initPageEditorBridge();
+    this.cmsContextService.registerOnMessageEvent(
+      'updateState',
+      (message: any) => {
+        if (this.cmsContextService.templateAnnotations) {
+          const templateAnnotations = this.personalizationService.wrap(
+            this.cmsContextService.templateAnnotations,
+            message.selectedComponentVariants
+          );
+          this.cmsContextService.setTemplateAnnotations(templateAnnotations);
+          this.setComments();
+        }
+      }
+    );
   }
 
   private setComments(): void {
